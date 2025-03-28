@@ -1,0 +1,68 @@
+
+Discarded input sections
+
+ .comment       0x00000000       0x2c main.o
+ .note.GNU-stack
+                0x00000000        0x0 main.o
+ .eh_frame      0x00000000       0x2c main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x00100000                        . = 0x100000
+
+.multiboot_header
+                0x00100000       0x28
+ *(.multiboot_header)
+ .multiboot_header
+                0x00100000       0x28 tiny_system_entry.o
+
+.start.text     0x00100028       0x5a
+ *(.start.text)
+ .start.text    0x00100028       0x5a tiny_system_entry.o
+                0x00100028                _start
+
+.text           0x00100082       0x10
+ *(.text .text.*)
+ .text          0x00100082        0x0 main.o
+ .text.startup  0x00100082       0x10 main.o
+                0x00100082                main
+
+.iplt           0x00100092        0x0
+ .iplt          0x00100092        0x0 tiny_system_entry.o
+
+.rel.dyn        0x00100094        0x0
+ .rel.got       0x00100094        0x0 tiny_system_entry.o
+ .rel.iplt      0x00100094        0x0 tiny_system_entry.o
+
+.rodata
+ *(.rodata .rodata.*)
+
+.data           0x00100092        0x0
+ *(.data)
+ .data          0x00100092        0x0 main.o
+
+.got            0x00100094        0x0
+ .got           0x00100094        0x0 tiny_system_entry.o
+
+.got.plt        0x00100094        0x0
+ .got.plt       0x00100094        0x0 tiny_system_entry.o
+
+.igot.plt       0x00100094        0x0
+ .igot.plt      0x00100094        0x0 tiny_system_entry.o
+
+.bss            0x00100092        0x0
+ *(.bss)
+ .bss           0x00100092        0x0 main.o
+
+/DISCARD/
+ *(.eh_frame)
+ *(.comment)
+ *(.note.*)
+LOAD tiny_system_entry.o
+LOAD main.o
+OUTPUT(TinySystem.elf elf32-i386)
